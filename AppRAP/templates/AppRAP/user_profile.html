@@ -1,0 +1,99 @@
+{% extends "base.html" %}
+{% block title %}FORUM RAP | Profil de {{ user.username }}{% endblock title %}
+{% block content %}
+
+<!-- VUE QUAND ON CONSULTE UN UTILISATEUR QUI N'EST PAS SOI MEME -->
+<h1>Profil de {{ user.username }}</h1>
+<p>{{ user.description }}</p>
+<section class="wrapper">
+  <div class="container-fostrap">
+    <div class="content">
+      <div class="container">
+        <div class="row">
+          <!-- INFORMATIONS PERSONNELLES -->
+          <div class="col-md-6">
+            <div class="card border-primary mb-4">
+              <div class="card-header">Informations personnelles</div>
+              <div class="card-body">
+                <ul class="list-group list-group-flush">
+                  <li class="list-group-item"><strong>Nom :</strong> {{ user.last_name }}</li>
+                  <li class="list-group-item"><strong>Prénom :</strong> {{ user.first_name }}</li>
+                  <li class="list-group-item"><strong>Email :</strong> {{ user.email }}</li>
+                  <li class="list-group-item"><strong>Date ouverture du compte :</strong> {{ user.date_joined }}</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <!-- RELATIONS ET BOUTONS S'ABONNER DESABONNER, RETOUR A LA DECOUVERTE / CAR SEULEMENT CONSULTATION PAS DE MODIF -->
+          <div class="col-md-6">
+            <div class="card border-primary mb-4">
+              <div class="card-header">Relations</div>
+              <div class="card-body">
+                <select class="form-select mb-3" aria-label="Users followed">
+                  <option selected disabled>Following</option>
+                  {% for followed_user in user.follows.all %}
+                  <option>{{ followed_user.username }}</option>
+                  {% endfor %}
+                </select>
+                <select class="form-select mb-3" aria-label="followers">
+                  <option selected disabled>Followers</option>
+                  {% for follower in followers %}
+                  <option>{{ follower.username }}</option>
+                  {% endfor %}
+                </select>
+                {% if request.user != user %}
+                  {% if user in request.user.follows.all %}
+                    <form action="{% url 'unsubscribe_user' user.username %}" method="post">
+                      {% csrf_token %}
+                      <button type="submit" class="btn btn-danger">Se désabonner</button>
+                    </form>
+                  {% else %}
+                    <form action="{% url 'subscribe_user' user.id %}" method="post">
+                      {% csrf_token %}
+                      <button type="submit" class="btn btn-primary">S'abonner</button>
+                    </form>
+                  {% endif %}
+                {% endif %}
+                <a href="{% url 'decouverte' %}" class="btn btn-primary">Retour à la découverte</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- SIMPLE DISPLAY DES PUBLICATIONS DU USER -->
+        <div class="row">
+          <div class="col-md-12">
+            <div class="card border-primary">
+              <div class="card-header">Publications</div>
+              <div class="card-body">
+                {% if user_posts %}
+                  {% for post in user_posts %}
+                    <div class="card mb-3">
+                      <div class="card-body">
+                        <h5 class="card-title">{{ post.creator.username }}</h5>
+                        {% if post.image %}
+                          <img src="{{ post.image.url }}" class="card-img-top" alt="Post Image">
+                        {% endif %}
+                        <p class="card-text">{{ post.content }}</p>
+                        <button id="btn" class="btn btn-secondary btn-sm">Like here</button>
+                        {% if post.mentions.all %}
+                          <p class="card-text"><small>Mentions: {{ post.mentions.all|join:", " }}</small></p>
+                        {% endif %}
+                        {% if post.hashtags.all %}
+                          <p class="card-text"><small>Hashtags: {{ post.hashtags.all|join:", " }}</small></p>
+                        {% endif %}
+                        <p class="card-text"><small>Date du post : {{ post.timestamp|date:"F d, Y" }}</small></p>
+                      </div>
+                    </div>
+                  {% endfor %}
+                {% else %}
+                  <p>Pas de publications.</p>
+                {% endif %}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock content %}

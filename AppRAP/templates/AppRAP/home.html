@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block title %}FORUM RAP | Accueil{% endblock title %}
+
+<!-- VUES DES PUBLICATIONS DANS HOME DES GENS A QUI LA PERSONNE EST ABONNEE-->
+{% block content %}
+{% if posts %}
+<div class="container">
+  <h1 class="text-center mt-5 mb-4 font">Publications suivies</h1>
+  <div class="row justify-content-center">
+    {% for post in posts %}
+    <div class="col-lg-4 col-md-6 mb-4">
+      <div class="card">
+        <div class="card-header"><a href="{% url 'user_profile' post.creator.username %}">{{ post.creator.username }}</a></div>
+        <div class="card-body">
+          {% if post.image %}
+          <img src="{{ post.image.url }}" class="card-img-top" alt="Post Image">
+          {% endif %}
+          <p class="card-text">{{ post.content }}</p>
+          <a href="{% url 'post_detail' post.id %}" class="btn btn-primary btn-sm">Voir</a>  <!-- BOUTON DETAILS -->
+          <button id="btn" class="btn btn-secondary btn-sm">Like</button>
+          {% if post.mentions.all %}
+          <p class="mt-3"><strong>Mentions:</strong> <a href="#" class="post-link">{{ post.mentions.all|join:", " }}</a></p>
+          {% endif %}
+          {% if post.hashtags.all %}
+          <p class="mt-3"><strong>Hashtags:</strong> <a href="#" class="post-link">{{ post.hashtags.all|join:", " }}</a></p>
+          {% endif %}
+          <p class="mt-3"><small>Date du post : {{ post.timestamp|date:"F d, Y" }}</small></p>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+{% else %}
+<div class="container text-center mt-5">
+  <p>Aucune publication disponible. Vous êtes abonné à personne !</p>
+</div>
+{% endif %}
+{% endblock content %}

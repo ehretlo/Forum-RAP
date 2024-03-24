@@ -1,0 +1,29 @@
+{% load static %}
+<!DOCTYPE html>
+<html data-bs-theme="dark">
+<!-- FICHIER DE BASE POUR TOUT-->
+  <head>
+    <meta charset="utf-8">
+    <title>{% block title %}Default title{% endblock %}</title>
+    <link rel="stylesheet" href={% static "bootstrap.min.css" %}>
+    <link rel="shortcut icon" type="image/png" href="{% static 'favicon.png' %}" >
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+</head>
+
+
+  <body class="background-image">
+    <header>
+      {% include "navbar.html" %}
+    </header>
+
+
+      <div id="contentdiv"> 
+        <main class="container my-5">
+          {% block content %}
+              <h3>No content.</h3>
+        </main>
+          {% endblock content %}
+      </div>
+    <script src={% static "AppRAP/index.js" %}></script>
+  </body>
+</html>

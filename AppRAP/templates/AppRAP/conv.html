@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block title %}{{ conv.name }}{% endblock title %}
+<header>
+  {% include "navbar.html" %}
+</header>
+{% block content %}
+<div class="card" style="width: 700px; height: 700px;">
+    <div class="card-header "><h1><strong>{{ conv.name }}</strong><h1>
+    </div>
+  <div class="messages">
+    {% for message in messages %}
+      {% if message.sender != request.user %}
+        <div class="message text-left">
+          <p><strong>{{ message.sender }}</strong>: {{ message.content }}</p>
+        </div>
+      {% else %}
+        <div class="message text-right">
+          <p><strong>{{ message.sender }}</strong>: {{ message.content }}</p>
+        </div>
+      {% endif %}
+    {% endfor %}
+  </div>
+</div>
+{% endblock content %}
+
+

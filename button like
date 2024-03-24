@@ -1,0 +1,11 @@
+const Button = document.querySelector("#btn");
+
+if (Button){
+    Button.addEventListener("click",() => {
+    Button.classList.toggle("btn-danger")
+    })
+
+}
+else{
+    console.error("Could not find button");
+}

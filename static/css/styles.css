@@ -1,0 +1,97 @@
+@font-face {
+    font-family: "ForumRap"; 
+    src: url("../fonts/Dragrace.ttf") format('truetype');
+}
+
+/* FONT PRINCIPALE */
+.font {
+    font-family: "ForumRap";
+    font-size: 30px;
+}
+
+.font2 {
+    font-family: "ForumRap";
+    font-size: 15px;
+}
+
+/* COULEUR RAP */
+.blue {
+    color:blue;
+}
+
+.red {
+    color:red;
+}
+
+.white {
+    color: white;
+}
+
+.navbar {
+    background: linear-gradient(to bottom, transparent 90%, blue 100%);
+}
+
+.grid-item { width: 200px; }
+.grid-item--width2 { width: 400px; }
+
+
+.content {
+    position: relative;
+    z-index: 1;
+}
+
+.background-image {
+    background-image: url("../back.png");
+    background-size: cover;
+    background-position: center;
+    height: 100vh;
+}
+
+
+body {
+    background-color: #f7f7f7;
+    margin: 0;
+    padding: 0;
+}
+
+.page-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 0 20px;
+}
+
+.form-container {
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    max-width: 600px;
+    width: 100%;
+}
+
+label {
+    margin-bottom: 8px;
+}
+
+input[type="text"],
+textarea {
+    padding: 10px;
+    margin-bottom: 20px;
+    border-radius: 4px;
+    width: 100%;
+}
+
+button[type="submit"] {
+    padding: 10px 20px;
+    background-color: gray;
+    color: #ffffff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button[type="submit"]:hover {
+    background-color: gray;
+}

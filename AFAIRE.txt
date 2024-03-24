@@ -1,0 +1,14 @@
+Clément : PB: seul admin arrive a ce connecter
+Clément : formulaire d'inscription ne fonctionne pas
+Clément : messages (liste des conv) view et html
+utiliser super et get_user_model (fonction)
+
+Louis : utilisateur bloquer model
+Louis : test bloquer et test follows
+
++ = espace commentaire?
++ = Barre de recherche 
++ = API
+
+
+

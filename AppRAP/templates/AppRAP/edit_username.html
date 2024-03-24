@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}FORUM RAP | Modifier le nom d'utilisateur{% endblock title %}
+<!-- FORMULAIRE POUR EDITER EN BASE LE USERNAME (fonctionnel)-->
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">Modifier le nom d'utilisateur</div>
+                <div class="card-body">
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <label for="new_username">Nouveau nom d'utilisateur :</label>
+                            <input type="text" id="new_username" name="new_username" class="form-control" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Modifier</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- window history back est un élément très utile pour comeback-->
+<div class="row justify-content-center mt-4">
+    <div class="col-md-4">
+      <button onclick="window.history.back();" class="btn btn-primary">Retour au profil</button>
+    </div>
+  </div>
+{% endblock content %}

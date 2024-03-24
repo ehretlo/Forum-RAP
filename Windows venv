@@ -1,0 +1,5 @@
+python -m venv . -> install venv
+& .\Scripts\Activate.ps1 -> activer virtual env
+deactivate -> désactiver le venv
+curl -sSL https://bootstrap.pypa.io/get-pip.py -o get-pip.py
+python get-pip.py

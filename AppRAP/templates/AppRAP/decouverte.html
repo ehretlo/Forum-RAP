@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{% block title %}FORUM RAP | Découvertes{% endblock title %}
+<header>
+  {% include "navbar.html" %}
+</header>
+
+<!-- CONTENU D'UNE PUBLICATION-->
+{% block content %}
+  {% if posts %}
+    {% if user.is_authenticated %}
+      <div class="container">
+        <h1 class="text-center mb-4 font">Publications</h1>
+        <div class="row">
+          {% for post in posts reversed %}
+            <div class="col-md-4 mb-4">
+              <div class="card border-primary">
+                <div class="card-header">
+                  <a href="{% url 'user_profile' post.creator.username %}">{{ post.creator.username }}</a>
+                </div>
+                <div class="card-body">
+                  {% if post.creator.profile %}
+                    <p><strong>Description:</strong> {{ post.creator.profile.description }}</p>
+                    <p><strong>Country:</strong> {{ post.creator.country.name }}</p>
+                  {% endif %}
+                  {% if post.image %}
+                    <img src="{{ post.image.url }}" class="card-img-top" alt="Post Image">
+                  {% endif %}
+                  <p class="card-text">{{ post.content }}</p>
+                  <a href="{% url 'post_detail' post.id %}" class="btn btn-primary btn-sm">Voir</a>  <!-- BOUTON DETAILS -->
+                  <button id="btn" class="btn btn-secondary btn-sm">Like here</button>
+                  {% if post.mentions.all %}
+                    <p class="mt-2"><strong>Mentions:</strong> {{ post.mentions.all|join:", " }}</p>
+                  {% endif %}
+                  {% if post.hashtags.all %}
+                    <p><strong>Hashtags:</strong> {{ post.hashtags.all|join:", " }}</p>
+                  {% endif %}
+                  <p><small>Date de la publication : {{ post.timestamp|date:"F d, Y" }}</small></p>
+                </div>
+                <!-- BOUTON SUPPR-->
+                {% if post.creator == user %}
+                  <div class="card-footer">
+                    <form action="{% url 'delete_post' post.id %}" method="post">
+                      {% csrf_token %}
+                      <button type="submit" class="btn btn-danger btn-sm">Supprimer</button>
+                    </form>
+                  </div>
+                {% endif %}
+              </div>
+            </div>
+            {% if forloop.counter|divisibleby:3 and not forloop.last %}
+              </div><div class="row">
+            {% endif %}
+          {% endfor %}
+        </div>
+      </div>
+    {% else %}
+      <div class="container">
+        <p class="text-center">Veuillez vous connecter pour voir les publications.</p>
+      </div>
+    {% endif %}
+  {% else %}
+    <div class="container">
+      <p class="text-center">Aucune publication disponible.</p>
+    </div>
+  {% endif %}
+{% endblock content %}

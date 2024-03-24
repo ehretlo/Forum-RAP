@@ -1,0 +1,68 @@
+{% load static %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="{% static 'css/styles.css' %}">
+<nav class="navbar navbar-expand-lg navbar-dark bg-body-tertiary">
+  <div class="container-fluid">
+    {% if user.is_authenticated %}
+      <!-- LOGO ET LIEN VERS LA PAGE D'ACCUEIL -->
+      <a class="navbar-brand font" href="{% url 'home' %}">
+        <img src="{% static 'favicon.png' %}" alt="Logo" width="40" height="44" class="d-inline-block">Forum <span class="blue">R<span class="white">A<span class="red">P</span></a>
+    {% else %}
+      <!-- LOGO ET LIEN VERS LA PAGE DE LOGIN-->
+      <a class="navbar-brand font" href="{% url 'login' %}">
+        <img src="{% static 'favicon.png' %}" alt="Logo" width="40" height="44" class="d-inline-block">Forum <span class="blue">R<span class="white">A<span class="red">P</span></a>
+    {% endif %}
+    <!-- Bouton de bascule pour le menu de navigation -->
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav me-auto">
+        <!-- LIENS DE NAVIGATION -->
+        {% if user.is_authenticated %}
+        <li class="nav-item">
+          <a class="nav-link font2" href="/home/">Home
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link font2" href="/decouverte/">Découverte</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link font2" href="/message/">Message</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link font2" href="/profil/">Profil</a>
+        </li>
+        {% endif %}
+      </ul>
+<!-- FORMULAIRE DE RECHERCHE -->
+        {% if user.is_authenticated %}
+      <form class="d-flex" action="{% url 'post_search' %}" method="get">
+        <input class="form-control me-2" type="search" name="query" placeholder="Rechercher" aria-label="Search">
+        <button class="btn btn-outline-light" type="submit">Rechercher</button>
+      </form>
+      {% endif %}
+      <!-- Statut de connexion de l'utilisateur -->
+      <div class="text-light ml-3 mr-3">
+        {% if user.is_authenticated %}
+         &ensp; Connecté &ensp;
+        {% else %}
+         &ensp; Aucun utilisateur connecté &ensp;
+        {% endif %}
+      </div>
+      <!-- Bouton de déconnexion ou de connexion -->
+      <div class="navbar-nav ml-auto">
+        {% if user.is_authenticated %}      
+          <form class="nav-item" action="{% url 'logout' %}" method="post">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-dark">Déconnexion</button>
+          </form>
+        {% else %}
+          <a class="nav-item btn btn-dark" href="{% url 'login' %}">Connexion</a>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</nav>

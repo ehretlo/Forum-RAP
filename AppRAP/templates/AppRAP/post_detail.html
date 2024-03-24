@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+{% block title %}FORUM RAP | Détail de l'article{% endblock title %}
+{% block content %}
+<!-- DETAIL DU POSTE EN GRAND-->
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <div class="card border-primary">
+        <div class="card-header">
+          <a href="{% url 'user_profile' post.creator.username %}">{{ post.creator.username }}</a>
+        </div>
+        <div class="card-body">
+          {% if post.creator.profile %}
+            <p><strong>Description:</strong> {{ post.creator.profile.description }}</p>
+            <p><strong>Country:</strong> {{ post.creator.country.name }}</p>
+          {% endif %}
+          {% if post.image %}
+            <img src="{{ post.image.url }}" class="card-img-top" alt="Post Image">
+          {% endif %}
+          <p class="card-text">{{ post.content }}</p>
+          <button id="btn" class="btn btn-secondary btn-sm">Like here</button>
+          {% if post.mentions.all %}
+            <p class="mt-2"><strong>Mentions:</strong> {{ post.mentions.all|join:", " }}</p>
+          {% endif %}
+          {% if post.hashtags.all %}
+            <p><strong>Hashtags:</strong> {{ post.hashtags.all|join:", " }}</p>
+          {% endif %}
+          <p><small>Date de la publication : {{ post.timestamp|date:"F d, Y" }}</small></p>
+        </div>
+        <!-- BOUTON SUPPR-->
+        {% if post.creator == user %}
+          <div class="card-footer">
+            <form action="{% url 'delete_post' post.id %}" method="post">
+              {% csrf_token %}
+              <button type="submit" class="btn btn-danger btn-sm">Supprimer</button>
+            </form>
+          </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+<!--
+<!-- Affichage des commentaires 
+<div class="row justify-content-center mt-4">
+    <div class="col-md-8">
+      <div class="card border-primary">
+        <div class="card-header">Commentaires</div>
+        <div class="card-body">
+                    {% for comment in comments %}
+            <div class="mb-3">
+              <strong>{{ comment.user.username }}</strong>
+              <p>{{ comment.content }}</p>
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+-->
+<!--
+<div class="row justify-content-center mt-4">
+    <div class="col-md-8">
+      <div class="card border-primary">
+        <div class="card-header">Espace Commentaire</div>
+        <div class="card-body">
+          <form method="post">
+            {% csrf_token %}
+            <div class="form-group">
+              <label for="comment">Votre commentaire :</label>
+              <textarea class="form-control" id="comment" rows="3" name="comment"></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Publier</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+-->
+  <!-- Bouton de retour à la découverte -->
+  <div class="row justify-content-center mt-4">
+    <div class="col-md-4">
+      <a href="{% url 'decouverte' %}" class="btn btn-primary">Retour à la découverte</a>
+    </div>
+  </div>
+</div>
+{% endblock content %}

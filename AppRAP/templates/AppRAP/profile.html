@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+{% block title %}FORUM RAP | Profil{% endblock title %}
+{% block content %}
+
+<!-- VUE DU PROFIL PERSONNEL DE LA PERSONNE AVEC MODIF DES INFORMATIONS PERSONNELLES (DANS PROFIL)-->
+<h1>Profil de {{ user.username }}</h1>
+<p>{{ user.description }}</p>
+<a href="{% url 'modify_username' %}" class="btn btn-secondary">Modifier le nom d'utilisateur</a>
+<a href="{% url 'edit_description' %}" class="btn btn-secondary">Modifier la description</a>
+
+<section class="wrapper">
+  <div class="container-fostrap">
+    <div class="content">
+      <div class="container">
+        <div class="row">
+          <!-- CREER UNE NOUVELLE PUBLICATION -->
+          <div class="col-md-12 text-center">
+            <a href="{% url 'create_article' %}" class="btn btn-primary">Créer une nouvelle publication</a>
+          </div>
+        </div>
+        <br>
+        <div class="row">
+          <!-- INFORMATIONS PERSONNELLES DU USER -->
+          <div class="col-md-6">
+            <div class="card border-primary mb-4">
+              <div class="card-header">Informations personnelles</div>
+              <div class="card-body">
+                <ul class="list-group list-group-flush">
+                  <li class="list-group-item"><strong>Nom :</strong> {{ user.last_name }}</li>
+                  <li class="list-group-item"><strong>Prénom :</strong> {{ user.first_name }}</li>
+                  <li class="list-group-item"><strong>Email :</strong> {{ user.email }}</li>
+                  <li class="list-group-item"><strong>Date ouverture du compte :</strong> {{ user.date_joined }}</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <!-- RELATIONS ET BOUTONS (PAS DE S'ABONNER CAR VUE PERSONNELLE)-->
+          <div class="col-md-6">
+            <div class="card border-primary mb-4">
+              <div class="card-header">Relations</div>
+              <div class="card-body">
+                <select class="form-select mb-3" aria-label="Users followed">
+                  <option selected disabled>Following</option>
+                  {% for followed_user in followed_users %}
+                  <option>{{ followed_user.username }}</option>
+                  {% endfor %}
+                </select>
+                <select class="form-select" aria-label="followers">
+                  <option selected disabled>Followers</option>
+                  {% for followers_user in followers %}
+                  <option>{{ followers_user.username }}</option>
+                  {% endfor %}
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- PUBLICATIONS DU USER -->
+        <div class="row">
+          <div class="col-md-12">
+            <div class="card border-primary">
+              <div class="card-header">Publications</div>
+              <div class="card-body">
+                {% if user_posts %}
+                  {% for post in user_posts %}
+                    <div class="card mb-3">
+                      <div class="card-body">
+                        <h5 class="card-title">{{ post.creator.username }}</h5>
+                        {% if post.image %}
+                          <img src="{{ post.image.url }}" class="card-img-top" alt="Post Image">
+                        {% endif %}
+                        <p class="card-text">{{ post.content }}</p>
+                        <button id="btn" class="btn btn-secondary btn-sm">Like here</button>
+                        {% if post.mentions.all %}
+                          <p class="card-text"><small>Mentions: {{ post.mentions.all|join:", " }}</small></p>
+                        {% endif %}
+                        {% if post.hashtags.all %}
+                          <p class="card-text"><small>Hashtags: {{ post.hashtags.all|join:", " }}</small></p>
+                        {% endif %}
+                        <p class="card-text"><small>Date du post : {{ post.timestamp|date:"F d, Y" }}</small></p>
+                      </div>
+                    </div>
+                  {% endfor %}
+                {% else %}
+                  <p>Pas de publications.</p>
+                {% endif %}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock content %}
